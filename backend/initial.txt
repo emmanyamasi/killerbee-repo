@@ -1,0 +1,82 @@
+steps to get startted with express.js
+
+
+
+cd BACKEND
+
+
+1. npm init -y
+
+2.npm i express
+
+
+3.npm i -D typescript @types/express ts-node @types/node nodemon
+
+
+Explanation:
+
+-D → devDependencies (used for development, not production).
+
+typescript → the TypeScript compiler.
+
+@types/express → TypeScript types for Express.
+
+ts-node → lets you run TypeScript directly.
+
+@types/node → Type definitions for Node.js.
+
+nodemon → restarts the server automatically when you change files.
+
+
+4. npx tsc --init
+5 . Step 6. Adjust tsconfig.json
+
+Inside tsconfig.json, make sure you have (or change these lines): {
+  "compilerOptions": {
+    "target": "ES6",
+    "module": "commonjs",
+    "rootDir": "./src",
+    "outDir": "./dist",
+    "esModuleInterop": true,
+    "strict": true
+  }
+}
+
+
+6."scripts": {
+  "start": "node dist/index.js",
+  "dev": "nodemon src/index.ts"
+}
+
+
+
+7. # dotenv (to load .env file variables)
+npm i dotenv
+
+# cors (to allow your Angular frontend to call the API)
+npm i cors
+
+# Type definitions for dotenv and cors (dev only)
+npm i -D @types/dotenv @types/cors
+
+
+
+
+BACKEND/
+│
+├── src/
+│   ├── index.ts           ← the code you shared (entry point)
+├── .env                   ← your environment variables (e.g., PORT=3000)
+├── package.json
+├── tsconfig.json
+
+
+
+RUN WITH 
+
+npm run dev
+
+
+If your .env file has PORT=3000, you should see:
+
+Server is running on port: 3000

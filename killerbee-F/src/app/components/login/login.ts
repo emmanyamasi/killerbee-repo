@@ -1,0 +1,82 @@
+// src/app/components/login/login.component.ts
+import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
+import { FormsModule } from '@angular/forms';
+
+@Component({
+  selector: 'app-login',
+  standalone: true,
+  imports: [FormsModule],
+  templateUrl: './login.html',
+  styleUrls: ['./login.css']
+})
+export class LoginComponent {
+  user = { email: '', password: '' };
+  isSubmitting = false; // Add this to prevent multiple submissions
+
+  constructor(private authService: AuthService, private router: Router) { }
+
+  onSubmit() {
+    if (this.isSubmitting) {
+      console.log('Already submitting, ignoring');
+      return;
+    }
+
+    console.log('onSubmit called');
+    console.log('Login payload:', this.user);
+
+    this.isSubmitting = true;
+    this.authService.login(this.user).subscribe({
+      next: (response) => {
+        console.log('Login successful:', response);
+
+        if (response.access_token) {
+          localStorage.setItem('access_token', response.access_token.accessToken);
+          localStorage.setItem('refresh_token', response.access_token.refreshToken);
+          localStorage.setItem('user_id', response.user.id.toString());
+          localStorage.setItem('role_id', response.user.role_id.toString());
+
+          if (response.user.role_id === 3) {
+            if (response.user.profileCompleted) {
+              this.router.navigate(['/jobseeker-dashboard']);
+
+            } else {
+              this.router.navigate(['/jobseeker']);
+            }
+            return;
+          } else {
+
+
+            switch (response.user.role_id) {
+              case 1:
+                this.router.navigate(['/admin']);
+                break;
+              case 2:
+                this.router.navigate(['/employer']);
+                break;
+              
+              default:
+                this.router.navigate(['/']);
+                break;
+            }
+          }
+        } else {
+          console.error('No access token received.');
+        }
+      },
+      error: (error) => {
+        console.error('Login failed:', error);
+        console.log('Status:', error.status);
+        console.log('Message:', error.message);
+        console.log('Error details:', error.error);
+        alert('Login failed. Please try again.');
+        this.isSubmitting = false;
+      },
+      complete: () => {
+        console.log('Login request completed');
+        this.isSubmitting = false;
+      },
+    });
+  }
+}

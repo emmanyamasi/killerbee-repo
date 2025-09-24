@@ -1,0 +1,29 @@
+<div class="home-container">
+
+  <!-- Admin Section -->
+  <div class="role-section admin">
+    <h2>Admin Access</h2>
+    <p>
+      Admins can <strong>create accounts</strong> for employees and manage the system.
+    </p>
+    <div class="buttons">
+      <button class="btn-admin" (click)="goToRegister()">Admin Sign Up</button>
+      <button class="btn-signin" (click)="goToAdminLogin()">Admin Login</button>
+    </div>
+  </div>
+
+  <!-- Divider -->
+  <div class="divider-vertical"></div>
+
+  <!-- Worker Section -->
+  <div class="role-section worker">
+    <h2>Employee Access</h2>
+    <p>
+      Employees (R&amp;D, Test, Factory) can only log in with credentials provided by Admin.
+    </p>
+    <div class="buttons">
+      <button class="btn-signin" (click)="goToLogin()">Employee Login</button>
+    </div>
+  </div>
+
+</div>

@@ -1,0 +1,80 @@
+.home-container {
+  display: flex;
+  justify-content: space-around;
+  align-items: stretch;
+  padding: 60px;
+  gap: 40px;
+}
+
+.role-section {
+  flex: 1;
+  padding: 30px;
+  border-radius: 10px;
+  background: #f9f9f9;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+.role-section h2 {
+  font-size: 24px;
+  margin-bottom: 15px;
+  color: #222;
+}
+
+.role-section p {
+  font-size: 16px;
+  color: #555;
+  margin-bottom: 25px;
+}
+
+.buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.btn-signin,
+.btn-admin {
+  padding: 12px 24px;
+  border-radius: 30px;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+/* Shared button styles */
+.btn-signin {
+  background: #333;
+  color: #fff;
+}
+
+.btn-signin:hover {
+  background: #555;
+}
+
+.btn-admin {
+  background: #007bff;
+  color: #fff;
+}
+
+.btn-admin:hover {
+  background: #0056b3;
+}
+
+/* Divider */
+.divider-vertical {
+  width: 2px;
+  background: #ddd;
+}
+
+/* Responsive for smaller screens */
+@media (max-width: 768px) {
+  .home-container {
+    flex-direction: column;
+  }
+  .divider-vertical {
+    display: none;
+  }
+}

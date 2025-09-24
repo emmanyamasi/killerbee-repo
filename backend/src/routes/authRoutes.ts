@@ -1,14 +1,15 @@
-import express from 'express'
-import { loginUser, logoutUser, registerUser } from '../controllers/authControllers'
+import express from "express";
+import { loginUser, logoutUser, registerUser } from "../controllers/authControllers";
+import { adminGuard } from "../middlwares/roleMiddlware";
+import { protect } from "../middlwares/auth/protect";
 
+const router = express.Router();
 
-const router = express.Router()
+// 🔒 Only Admin can create new employees
+router.post("/register",registerUser);
 
-//public routes 
-router.post("/register", registerUser)
-router.post("/login", loginUser)
-router.post("/logout", logoutUser)
+// 🌍 Public routes (accessible by everyone)
+router.post("/login",loginUser);
+router.post("/logout", protect,logoutUser);
 
-
-
-export default router
+export default router;

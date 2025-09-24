@@ -12,7 +12,7 @@ import { FormsModule } from '@angular/forms';
   styleUrls: ['./admin-login.css']
 })
 export class AdminLogin {
-  admin = { email: '', password: '' };
+  admin = { name: '', password: '' };
   isSubmitting = false;
 
   constructor(private authService: AuthService, private router: Router) {}

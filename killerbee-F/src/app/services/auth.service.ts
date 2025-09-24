@@ -15,7 +15,7 @@ export class AuthService {
     return this.http.post(`${this.apiUrl}/register`, user, { withCredentials: true });
   }
 
-  login(user: { email: string; password: string }): Observable<any> {
+  login(user: { name: string; password: string }): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/login`, user, { withCredentials: true }).pipe(
       tap((response) => {
         console.log('Full login response:', response);

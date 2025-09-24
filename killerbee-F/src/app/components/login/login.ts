@@ -12,7 +12,7 @@ import { FormsModule } from '@angular/forms';
   styleUrls: ['./login.css']
 })
 export class LoginComponent {
-  user = { email: '', password: '' };
+  user = { name: '', password: '' };
   isSubmitting = false; // Add this to prevent multiple submissions
 
   constructor(private authService: AuthService, private router: Router) { }

@@ -1,1 +1,36 @@
-create controllers for users  where you will also assign the roles
+# KillerBee Backend (Express.js + TypeScript + PostgreSQL)
+
+This is the backend service for the KillerBee project.  
+It handles **user authentication (signup, login, logout)**,  
+role-based access, and JWT-based route protection.
+
+---
+
+## 🚀 Features
+- Express.js with TypeScript
+- PostgreSQL (via pgAdmin)
+- JWT Authentication (Login, Logout, Protected Routes)
+- Role-based access (Users + Roles tables)
+- Secure password hashing with bcrypt
+- Environment variables with dotenv
+- CORS support for frontend integration
+
+---
+
+## 📂 Project Structure
+
+BACKEND/
+│
+├── src/
+│ ├── index.ts # Entry point
+│ ├── middleware/
+│ │ └── authMiddleware.ts # JWT protect middleware
+│ ├── controllers/
+│ │ └── authController.ts # Login, Logout, Signup logic
+│ ├── config/
+│ │ └── db.config.ts # Database connection
+│ └── utils/ # Helper functions & types
+│
+├── .env # Environment variables
+├── package.json
+├── tsconfig.json

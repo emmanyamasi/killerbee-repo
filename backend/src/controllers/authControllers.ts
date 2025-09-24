@@ -50,9 +50,9 @@ export const loginUser = asyncHandler(async (req: Request, res: Response, next: 
     // Check if user exists
     // Check if user exists
     const userQuery = await pool.query(
-        `SELECT users.id, users.name, users.email, users.password, users.role_id, user_roles.role_name
+        `SELECT users.id, users.name, users.email, users.password, users.role_id, roles.role_name
          FROM users
-         JOIN roles ON users.role_id = roles.id
+         JOIN roles ON users.role_id = roles.role_id
          WHERE email = $1`,
         [email]
     );

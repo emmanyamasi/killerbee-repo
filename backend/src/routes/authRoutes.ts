@@ -10,6 +10,7 @@ router.post("/register",registerUser);
 
 // 🌍 Public routes (accessible by everyone)
 router.post("/login",loginUser);
+router.post("/admin-login", loginUser)
 router.post("/logout", protect,logoutUser);
 
 export default router;

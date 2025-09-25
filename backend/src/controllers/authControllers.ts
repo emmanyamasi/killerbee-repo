@@ -51,11 +51,11 @@ export const loginUser = asyncHandler(async (req: Request, res: Response, next: 
     const user = userQuery.rows[0];
 
     // Compare password
-    const isMatch = (password ===  user.password);
-    if (!isMatch) {
-        res.status(401).json({ message: "Invalid email or password" });
+    if (password !== user.password) {
+        res.status(401).json({ message: "Invalid username or password" });
         return;
     }
+    
 
     // Generate JWT
     await generateToken(res, user.id, user.role_id);

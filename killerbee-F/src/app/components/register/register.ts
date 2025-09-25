@@ -17,7 +17,7 @@ export class RegisterComponent {
 
 onSubmit() {
     this.user.role_id = +this.user.role_id; // Using the unary plus operator
-    this.authService.register(this.user).subscribe({
+    this.authService.registerEmployee(this.user).subscribe({
       next: (response) => {
         console.log('Registration successful:', response);
         this.router.navigate(['/login']); // Redirect to the book list page

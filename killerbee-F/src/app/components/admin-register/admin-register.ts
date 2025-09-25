@@ -19,7 +19,7 @@ export class AdminRegisterComponent {
     // Always force role_id = 1 for admins
     const adminData = { ...this.admin, role_id: 1 };
 
-    this.authService.register(adminData).subscribe({
+    this.authService.registerAdmin(adminData).subscribe({
       next: (response) => {
         console.log('Admin registration successful:', response);
         alert('Admin account created successfully!');

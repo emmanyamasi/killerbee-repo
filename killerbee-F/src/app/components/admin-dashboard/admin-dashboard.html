@@ -3,8 +3,13 @@
   <p>You are logged in as an administrator.</p>
 
   <div class="actions">
-    <button routerLink="/register" class="btn">➕ Create Employee</button>
-    <button routerLink="/users" class="btn">👤 Manage Users</button>
+    <!-- Takes admin to employee creation form -->
+    <button routerLink="/create-employee" class="btn">➕ Create Employee</button>
+
+    <!-- Could show/manage all employees -->
+    <button routerLink="/users" class="btn">👤 Manage Employees</button>
+
+    <!-- Settings area -->
     <button routerLink="/settings" class="btn">⚙️ Settings</button>
   </div>
 </div>

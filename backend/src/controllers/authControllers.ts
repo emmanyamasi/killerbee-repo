@@ -32,6 +32,7 @@ export const registerUser = asyncHandler(async (req: Request, res: Response, nex
 });
 
 // Employee login
+// Employee (and Admin) login
 export const loginUser = asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
     const { name, password } = req.body;
 
@@ -50,18 +51,18 @@ export const loginUser = asyncHandler(async (req: Request, res: Response, next: 
 
     const user = userQuery.rows[0];
 
-    // Compare password
+    // Compare password (⚠️ not hashed here)
     if (password !== user.password) {
         res.status(401).json({ message: "Invalid username or password" });
         return;
     }
-    
 
-    // Generate JWT
-    await generateToken(res, user.id, user.role_id);
+    // Generate JWTs (cookies + return token)
+    const { accessToken } = generateToken(res, user.id, user.role_id);
 
     res.status(200).json({
         message: "Login successful",
+        accessToken,   // 👈 send token in body
         user: {
             id: user.id,
             name: user.name,

@@ -6,7 +6,7 @@ import { protect } from "../middlwares/auth/protect";
 const router = express.Router();
 
 // 🔒 Only Admin can create new employees
-router.post("/register",registerUser);
+
 
 // 🌍 Public routes (accessible by everyone)
 router.post("/login",loginUser);

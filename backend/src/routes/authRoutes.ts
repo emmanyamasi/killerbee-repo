@@ -7,10 +7,10 @@ const router = express.Router();
 
 // 🔒 Only Admin can create new employees
 
-
+router.post("/admin-login", loginUser)
 // 🌍 Public routes (accessible by everyone)
 router.post("/login",loginUser);
-router.post("/admin-login", loginUser)
+
 router.post("/logout", protect,logoutUser);
 
 export default router;

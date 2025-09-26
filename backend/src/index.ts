@@ -39,6 +39,10 @@ app.use(cors({
 }));
 
 
+app.get("/", (req, res) => {
+  res.send("🚀 KillerBee backend is running!");
+});
+
 //4. routes 
 
 app.use("/api/v1/auth", authRoutes)
@@ -46,6 +50,7 @@ app.use("/api/v1/employees", employeeRoutes);
 
 
 //5. middlewares for error handlers 
+
 
 
 //6: start the serve 

@@ -23,7 +23,7 @@ export class AuthService {
     const token = localStorage.getItem('token'); // 👈 grab saved token
     const headers = token ? new HttpHeaders({ Authorization: `Bearer ${token}` }) : undefined;
 
-    return this.http.post(`${this.employeeUrl}/register`, user, {
+    return this.http.post(`${this.employeeUrl}`, user, {
       withCredentials: true,
       headers,
     });

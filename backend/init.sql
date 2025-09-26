@@ -19,3 +19,4 @@ INSERT INTO roles (role_name) VALUES ('Admin'), ('R&D'), ('Test'), ('Factory');
 
 INSERT INTO users (name, email, password, role_id)
 VALUES ('admin', 'admin@gmail.com', '1234', 1); -- You can hash password later
+ 

@@ -24,9 +24,9 @@ router.get("/test", (req, res) => {
 
 
 
-router.post("/login",protect,loginUser);
+router.post("/login",loginUser);
 
-router.post("/logout", protect,logoutUser);
+router.post("/logout",logoutUser);
 
 
 //router.post("/login",loginUser);

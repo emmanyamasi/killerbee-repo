@@ -35,8 +35,7 @@ export const registerUser = asyncHandler(async (req: Request, res: Response, nex
 
 
 
-// Employee login
-// Employee (and Admin) login
+// (and Admin) login
 export const loginUser = asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
     const { name, password } = req.body;
 

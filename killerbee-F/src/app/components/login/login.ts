@@ -13,9 +13,9 @@ import { FormsModule } from '@angular/forms';
 })
 export class LoginComponent {
   user = { name: '', password: '' };
-  isSubmitting = false; // Add this to prevent multiple submissions
+  isSubmitting = false;
 
-  constructor(private authService: AuthService, private router: Router) { }
+  constructor(private authService: AuthService, private router: Router) {}
 
   onSubmit() {
     if (this.isSubmitting) {
@@ -27,39 +27,40 @@ export class LoginComponent {
     console.log('Login payload:', this.user);
 
     this.isSubmitting = true;
+
     this.authService.login(this.user).subscribe({
       next: (response) => {
         console.log('Login successful:', response);
 
-        if (response.access_token) {
-          localStorage.setItem('access_token', response.access_token.accessToken);
-          localStorage.setItem('refresh_token', response.access_token.refreshToken);
+        // ✅ Save token in the same way as AdminLogin
+        if (response.accessToken) {
+          localStorage.setItem('token', response.accessToken);   // use the same key!
           localStorage.setItem('user_id', response.user.id.toString());
           localStorage.setItem('role_id', response.user.role_id.toString());
 
-          if (response.user.role_id === 3) {
-            if (response.user.profileCompleted) {
-              this.router.navigate(['/jobseeker-dashboard']);
+          // ✅ Optional: handle refresh token if backend sends it
+          if (response.refreshToken) {
+            localStorage.setItem('refresh_token', response.refreshToken);
+          }
 
-            } else {
-              this.router.navigate(['/jobseeker']);
-            }
-            return;
-          } else {
-
-
-            switch (response.user.role_id) {
-              case 1:
-                this.router.navigate(['/admin']);
-                break;
-              case 2:
-                this.router.navigate(['/employer']);
-                break;
-              
-              default:
-                this.router.navigate(['/']);
-                break;
-            }
+          // ✅ Role-based redirects
+          switch (response.user.role_id) {
+            case 1:
+              this.router.navigate(['/admin-dashboard']);
+              break;
+            case 2:
+              this.router.navigate(['/employer']);
+              break;
+            case 3:
+              if (response.user.profileCompleted) {
+                this.router.navigate(['/jobseeker-dashboard']);
+              } else {
+                this.router.navigate(['/jobseeker']);
+              }
+              break;
+            default:
+              this.router.navigate(['/']);
+              break;
           }
         } else {
           console.error('No access token received.');

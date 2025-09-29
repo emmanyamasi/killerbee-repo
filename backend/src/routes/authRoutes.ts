@@ -9,7 +9,7 @@ const router = express.Router();
 
 //router.post("/admin-login", loginUser)
 // 🌍 Public routes (accessible by everyone)
-router.post("/login",loginUser);
+router.post("/login",protect,loginUser);
 
 router.post("/logout", protect,logoutUser);
 

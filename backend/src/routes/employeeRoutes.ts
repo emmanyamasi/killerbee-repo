@@ -1,8 +1,8 @@
 import express from "express";
-import { loginUser} from "../controllers/authControllers";
+
 import { protect } from "../middlwares/auth/protect";
 import { adminGuard } from "../middlwares/roleMiddlware";
-import { registerEmployee } from "../controllers/employeeController";
+import { loginUser, logoutUser, registerEmployee } from "../controllers/employeeController";
 
 const router = express.Router();
 
@@ -20,6 +20,13 @@ router.post("/",protect, adminGuard,registerEmployee);
 router.get("/test", (req, res) => {
   res.json({ message: "Employee route is working" });
 });
+
+
+
+
+router.post("/login",protect,loginUser);
+
+router.post("/logout", protect,logoutUser);
 
 
 //router.post("/login",loginUser);

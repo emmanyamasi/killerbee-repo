@@ -18,16 +18,7 @@ export class AuthService {
     return this.http.post(`${this.authUrl}/admin-register`, adminData, { withCredentials: true });
   }
 
-  // 🔹 Register employee (admin only)
-  registerEmployee(user: { name: string; email: string; password: string; role_id: number }): Observable<any> {
-    const token = localStorage.getItem('token'); // 👈 grab saved token
-    const headers = token ? new HttpHeaders({ Authorization: `Bearer ${token}` }) : undefined;
 
-    return this.http.post(`${this.employeeUrl}`, user, {
-      withCredentials: true,
-      headers,
-    });
-  }
 
   // 🔹 Login (admin or employee)
   login(user: { name: string; password: string }): Observable<any> {

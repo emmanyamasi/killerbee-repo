@@ -26,6 +26,7 @@ export class AdminLogin {
     this.authService.login(this.admin).subscribe({
       next: (response) => {
         console.log('Login successful:', response);
+          localStorage.setItem('token', response.accessToken);
 
         // ✅ Just use user info, token is already in cookie
         localStorage.setItem('user_id', response.user.id.toString());

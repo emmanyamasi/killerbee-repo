@@ -1,1 +1,27 @@
-<p>factory-dashboard works!</p>
+<div class="dashboard">
+  <h2>Factory Dashboard</h2>
+
+  <!-- Models -->
+  <section>
+    <h3>Select a Model</h3>
+    <ul>
+      <li *ngFor="let model of models">
+        <button (click)="loadProcesses(model.id)">
+          {{ model.name }}
+        </button>
+      </li>
+    </ul>
+  </section>
+
+  <!-- Validated Processes -->
+  <section *ngIf="selectedModelId">
+    <h3>Validated Processes for Model #{{ selectedModelId }}</h3>
+    <ul>
+      <li *ngFor="let proc of processes">
+        <b>Step {{ proc.step_number }}:</b> {{ proc.description }}
+        <span style="color: green;">[Validated]</span>
+        <button (click)="executeProcess(proc.id)">⚙️ Execute</button>
+      </li>
+    </ul>
+  </section>
+</div>

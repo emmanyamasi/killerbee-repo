@@ -1,1 +1,77 @@
-<p>rd-dashboard works!</p>
+<div class="dashboard">
+  <h2>R&D Dashboard</h2>
+
+  <!-- MODELS -->
+  <section>
+    <h3>Models</h3>
+    <form (ngSubmit)="addModel()">
+      <input [(ngModel)]="newModel.name" name="name" placeholder="Name" required>
+      <input [(ngModel)]="newModel.description" name="description" placeholder="Description">
+      <input [(ngModel)]="newModel.pUHT" name="pUHT" type="number" placeholder="Price (pUHT)" required>
+      <input [(ngModel)]="newModel.range" name="range" placeholder="Range" required>
+      <button type="submit">Add Model</button>
+    </form>
+
+    <ul>
+      <li *ngFor="let model of models">
+        <b>{{ model.name }}</b> ({{ model.range }}) - {{ model.puht }} €
+        <button (click)="deleteModel(model.id)">❌ Delete</button>
+        <button (click)="loadProcesses(model.id)">📜 View Processes</button>
+      </li>
+    </ul>
+  </section>
+
+  <!-- INGREDIENTS -->
+  <section>
+    <h3>Ingredients</h3>
+    <form (ngSubmit)="addIngredient()">
+      <input [(ngModel)]="newIngredient.name" name="ingredientName" placeholder="Name" required>
+      <input [(ngModel)]="newIngredient.description" name="ingredientDescription" placeholder="Description">
+      <button type="submit">Add Ingredient</button>
+    </form>
+
+    <ul>
+      <li *ngFor="let ing of ingredients">
+        {{ ing.name }} - {{ ing.description }}
+        <button (click)="deleteIngredient(ing.id)">❌ Delete</button>
+      </li>
+    </ul>
+  </section>
+
+  <!-- LINK MODEL ↔ INGREDIENT -->
+  <section>
+    <h3>Link Ingredient to Model</h3>
+    <form (ngSubmit)="linkIngredient()">
+      <select [(ngModel)]="newLink.model_id" name="modelSelect" required>
+        <option *ngFor="let m of models" [value]="m.id">{{ m.name }}</option>
+      </select>
+      <select [(ngModel)]="newLink.ingredient_id" name="ingredientSelect" required>
+        <option *ngFor="let i of ingredients" [value]="i.id">{{ i.name }}</option>
+      </select>
+      <input [(ngModel)]="newLink.weight" name="weight" type="number" placeholder="Weight (grams)" required>
+      <button type="submit">Link</button>
+    </form>
+  </section>
+
+  <!-- PROCESSES -->
+  <section>
+    <h3>Processes</h3>
+    <form (ngSubmit)="addProcess()">
+      <select [(ngModel)]="newProcess.model_id" name="procModel" required>
+        <option *ngFor="let m of models" [value]="m.id">{{ m.name }}</option>
+      </select>
+      <input [(ngModel)]="newProcess.step_number" name="step_number" type="number" placeholder="Step #" required>
+      <input [(ngModel)]="newProcess.description" name="stepDescription" placeholder="Step Description" required>
+      <button type="submit">Add Step</button>
+    </form>
+
+    <ul>
+      <li *ngFor="let proc of processes">
+        Step {{ proc.step_number }}: {{ proc.description }}
+        <span [style.color]="proc.validated ? 'green' : 'red'">
+          [{{ proc.validated ? 'Validated' : 'Pending' }}]
+        </span>
+      </li>
+    </ul>
+  </section>
+</div>

@@ -1,40 +1,63 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-
+import { Observable,tap } from 'rxjs';
+import { AuthService } from './auth.service'; // ✅ import auth service
+import { Router } from '@angular/router';
 @Injectable({
   providedIn: 'root'
 })
 export class EmployeeService {
   private employeeUrl = 'http://localhost:5000/api/v1/employees';
 
-  constructor(private http: HttpClient) {} // Router not used here, so I've removed it for brevity
+  constructor(private http: HttpClient, private authService: AuthService  ,private router: Router) {}
 
-  // 🔹 Register employee (admin only)
   registerEmployee(user: { name: string; email: string; password: string; role_id: number }): Observable<any> {
-    const token = localStorage.getItem('token');
-    
+    const token = this.authService.getToken();   // ✅ always use auth service
+    const roleId = this.authService.getRoleId(); // ✅ check role
+
     if (!token) {
-      console.error("❌ No token found in localStorage. Cannot proceed with registration.");
-      // Optional: Handle this case by throwing an error or redirecting
-      // this.router.navigate(['/login']); 
-      return new Observable(observer => observer.error("No authentication token found."));
+      return new Observable(observer => observer.error("❌ No authentication token found."));
+    }
+     console.log("🚀 Token being sent:", token); // 👈 ADD THIS LINE
+
+    if (roleId !== 1) { // ✅ Block employees from creating employees
+      return new Observable(observer => observer.error("❌ Only Admin can create employees."));
     }
 
-    // 1. Create headers ONCE and ensure the token is included.
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
-      // This is the crucial line for authorization
-      'Authorization': `Bearer ${token}` 
+      'Authorization': `Bearer ${token}`
     });
 
-    console.log("🚀 Sending request with token:", token.substring(0, 10) + '...'); // Print partial token for security
+    return this.http.post(this.employeeUrl, user, { headers });
 
-    // 2. Pass the created 'headers' object to the request options.
-    return this.http.post(
-      this.employeeUrl,
-      user, // Send the plain user object; Angular handles JSON.stringify
-      { headers: headers }
+
+
+    
+  }
+
+
+// 🔹 Employee login
+  loginEmployee(user: { name: string; password: string }): Observable<any> {
+    return this.http.post<any>(`${this.employeeUrl}/login`, user, { withCredentials: true }).pipe(
+      tap((response) => {
+        if (response && response.user && response.accessToken) {
+          // Save token + user info
+          localStorage.setItem('token', response.accessToken);
+          localStorage.setItem('user_id', response.user.id.toString());
+          localStorage.setItem('role_id', response.user.role_id.toString());
+
+          // Redirect based on role
+          switch (response.user.role_id) {
+            case 2: this.router.navigate(['/rd-dashboard']); break;
+            case 3: this.router.navigate(['/test-dashboard']); break;
+            case 4: this.router.navigate(['/factory-dashboard']); break;
+            default: this.router.navigate(['/']); break;
+          }
+        } else {
+          throw new Error('Invalid employee login response');
+        }
+      })
     );
   }
 }

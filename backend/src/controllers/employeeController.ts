@@ -2,8 +2,9 @@
 import { Request, Response, NextFunction } from "express";
 
 import asyncHandler from "../middlwares/asyncHandler";
-import { generateToken } from "../utils/helpers/generatoken";
+
 import pool from "../../config/db.config";
+import { generateToken } from "../utils/helpers/generatoken";
 
 
 

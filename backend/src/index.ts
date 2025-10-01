@@ -36,7 +36,8 @@ app.use(cookieParser())
 //To allow only http://localhost:5173:
 app.use(cors({
     origin: "http://localhost:4200",
-    methods: "GET, PUT,DELETE,OPTIONS, POST,",
+     allowedHeaders: ['Content-Type', 'Authorization'], 
+    methods: "GET, PUT,DELETE,OPTIONS,POST,",
     credentials: true //allows cookies and auth headers
 }));
 

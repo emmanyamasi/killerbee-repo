@@ -1,8 +1,9 @@
 // src/app/components/login/login.component.ts
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthService } from '../../services/auth.service';
+
 import { FormsModule } from '@angular/forms';
+import { EmployeeService } from '../../services/employee.service';
 
 @Component({
   selector: 'app-login',
@@ -15,7 +16,7 @@ export class LoginComponent {
   user = { name: '', password: '' };
   isSubmitting = false;
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private employeeService:EmployeeService, private router: Router) {}
 
   onSubmit() {
     if (this.isSubmitting) {
@@ -28,35 +29,29 @@ export class LoginComponent {
 
     this.isSubmitting = true;
 
-    this.authService.login(this.user).subscribe({
+    this.employeeService.loginEmployee(this.user).subscribe({
       next: (response) => {
         console.log('Login successful:', response);
 
-        // ✅ Save token in the same way as AdminLogin
+        // ✅ Save token and user info
         if (response.accessToken) {
-          localStorage.setItem('token', response.accessToken);   // use the same key!
+          localStorage.setItem('token', response.accessToken);
           localStorage.setItem('user_id', response.user.id.toString());
           localStorage.setItem('role_id', response.user.role_id.toString());
 
-          // ✅ Optional: handle refresh token if backend sends it
-          if (response.refreshToken) {
-            localStorage.setItem('refresh_token', response.refreshToken);
-          }
-
-          // ✅ Role-based redirects
+          // ✅ Role-based redirects (matching your DB)
           switch (response.user.role_id) {
-            case 1:
+            case 1: // Admin
               this.router.navigate(['/admin-dashboard']);
               break;
-            case 2:
-              this.router.navigate(['/employer']);
+            case 2: // R&D Department
+              this.router.navigate(['/rd-dashboard']);
               break;
-            case 3:
-              if (response.user.profileCompleted) {
-                this.router.navigate(['/jobseeker-dashboard']);
-              } else {
-                this.router.navigate(['/jobseeker']);
-              }
+            case 3: // Test Department
+              this.router.navigate(['/test-dashboard']);
+              break;
+            case 4: // Factory
+              this.router.navigate(['/factory-dashboard']);
               break;
             default:
               this.router.navigate(['/']);

@@ -16,6 +16,6 @@ export const roleGuard = (allowedRoles: string[]) =>
 
 // KillerBee specific guards
 export const adminGuard   = roleGuard(["Admin"]);            // Manage users
-export const rdGuard      = roleGuard(["R&D Department"]);   // Design processes
-export const testGuard    = roleGuard(["Test Department"]);  // Validate tests
+export const rdGuard      = roleGuard(["R&D"]);   // Design processes
+export const testGuard    = roleGuard(["Test"]);  // Validate tests
 export const factoryGuard = roleGuard(["Factory"]);  
